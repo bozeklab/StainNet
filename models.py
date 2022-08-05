@@ -9,6 +9,7 @@ class StainNet(pl.LightningModule):
     def __init__(self, opt):
         super(StainNet, self).__init__()
         self.opt = opt
+        self.save_hyperparameters()
 
         self._train_dataloader, self._val_dataloader = get_dataloaders(opt)
 
