@@ -14,6 +14,8 @@ def set_task_credentials(args):
     secret_key = args.clearml_secret_key
 
     if len(secret_key) + len(access_key) > 0:
+        print("SETTING CREDENTIALS")
+        args.logger = True
         Task.set_credentials(web_host=web_server,
                             api_host=api_server,
                             files_host=files_server,
@@ -29,7 +31,7 @@ def main(args):
     model.has_teardown_None = False
     set_seeds(args.seed)
     
-    if not args.logger: 
+    if args.logger: 
         task = Task.init(project_name=args.clearml_project, task_name=args.clearml_task)
     args.max_epochs = args.epoch
     trainer = Trainer.from_argparse_args(args)
