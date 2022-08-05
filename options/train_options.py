@@ -8,15 +8,6 @@ class TrainOptions(BaseOptions):
 
     def initialize(self):
         self.parser.add_argument("--name", default="StainNet", type=str, help="name of the experiment.")
-        self.parser.add_argument("--source_root_train", default="dataset/Cytopathology/train/trainA", type=str, help="path to source images for training")
-        self.parser.add_argument("--gt_root_train", default="dataset/Cytopathology/train/trainB", type=str, help="path to ground truth images for training")
-        self.parser.add_argument("--source_root_test", default="dataset/Cytopathology/test/testA", type=str, help="path to source images for test")
-        self.parser.add_argument("--gt_root_test", default="dataset/Cytopathology/test/testB", type=str, help="path to ground truth images for test")
-        self.parser.add_argument('--input_nc_net', type=int, default=3, help='# of input image channels')
-        self.parser.add_argument('--output_nc_net', type=int, default=3, help='# of output image channels')
-        self.parser.add_argument('--channels', type=int, default=32, help='# of channels in StainNet')
-        self.parser.add_argument('--n_layer', type=int, default=3, help='# of layers in StainNet')
-        self.parser.add_argument('--batchSize', type=int, default=10, help='input batch size')
         self.parser.add_argument('--nThreads', default=4, type=int, help='# threads for loading data')
         self.parser.add_argument('--checkpoints_dir_net', type=str, default='./checkpoints', help='models are saved here')
         self.parser.add_argument('--fineSize', type=int, default=256, help='crop to this size')
@@ -26,9 +17,6 @@ class TrainOptions(BaseOptions):
         self.parser.add_argument('--epoch', type=int, default=300, help='how many epoch to train')
         self.parser.add_argument('--epoch_len', type=int, default=6000, help='how many samples per epoch')
         self.parser.add_argument('--val_len', type=int, default=500, help='how many samples per epoch')
-        self.parser.add_argument('--csv_path', type=str, default="csv.csv", help='path to images metadata')
-        self.parser.add_argument('--dataroot', type=str, required=True, help='Directory containing images')
-        self.parser.add_argument('--seed', type=int, default=42)
 
         self.parser.add_argument('--model', type=str, default='cycle_gan',
                                  help='chooses which model to use. cycle_gan, pix2pix, test')

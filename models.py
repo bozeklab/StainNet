@@ -11,7 +11,8 @@ class StainNet(pl.LightningModule):
         self.opt = opt
         self.save_hyperparameters()
 
-        self._train_dataloader, self._val_dataloader = get_dataloaders(opt)
+        if not opt.is_predict:
+            self._train_dataloader, self._val_dataloader = get_dataloaders(opt)
 
         model_list = []
 

@@ -1,16 +1,42 @@
-from options.test_options import TestOptions
-from pytorch_lightning import Trainer 
+from options.infere_options import InfereOptions
 from models import StainNet
+import torch
+from PIL import Image
+import torchvision
+
+def get_img(path):
+    transforms = torchvision.transforms.ToTensor()  
+
+    try:
+        img = Image.open(path).convert('RGB')
+    except FileNotFoundError:
+        return None
+    img = transforms(img).unsqueeze(0)
+
+    return img
+
+def loader(args):  
+    if args.one_sample is not None:
+        yield get_img(args.one_sample), args.one_sample.split("/")[-1]
+        return
+    df = pd.read_csv(args.csv_path) 
+    for row in df:
+        img = get_img(os.path.join(args.dataroot, row["filename"]))
+        if img is None:
+            continue
+        yield img, row["filename"]
+        
 
 def main(args):
-    # predict_dataloader = 
-    trainer = Trainer()
     model = StainNet(args).load_from_checkpoint(args.checkpoint_path)
-    predictions = trainer.predict(model, dataloaders=predict_dataloader)
+    for batch_idx, (batch, filename) in enumerate(loader(args)):
+        pred = model.predict_step(batch, batch_idx)
+        path = os.path.join(args.results, filename)
+        torchvision.utils.save_image(pred, path)
 
 if __name__ == "__main__":
-    parser = TrainOptions()
-    parser = Trainer.add_argparse_args(parser)
+    parser = InfereOptions().parser
     args = parser.parse_args()
+    args.is_predict = True
 
     main(args)
