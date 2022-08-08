@@ -31,7 +31,6 @@ def main(args):
         model = StainNet.load_from_checkpoint(args.continue_path)
     else:
         model = StainNet(args)
-    model.log_img_path = args.log_img_path
 
     model.add_stain_gan(stain_gan)
     model.has_teardown_None = False
@@ -57,6 +56,4 @@ if __name__ == "__main__":
     else: 
         args.gpu_ids = list(range(args.gpus))
         
-    args.log_img_path = "/data/shared/her2-images/test-set-external/136-3.jpg"
-
     main(args)

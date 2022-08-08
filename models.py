@@ -59,9 +59,9 @@ class StainNet(pl.LightningModule):
         loss = self.loss_fun(y_hat, y)
         self.log("val_loss", loss)
         if batch_idx == 0:
-            grid = torchvision.utils.make_grid(self.y_hat[:4])
+            grid = torchvision.utils.make_grid(y_hat[:4])
             self.logger.experiment.add_image('generated_images', grid, 0)
-            grid = torchvision.utils.make_grid(self.batch[:4])
+            grid = torchvision.utils.make_grid(batch[:4])
             self.logger.experiment.add_image('original_images', grid, 0)
         return loss
 
