@@ -28,7 +28,6 @@ class StainNet(pl.LightningModule):
         self.pipeline = nn.Sequential(*model_list)
         self.loss_fun = nn.L1Loss()
         self.stain_gan = None
-        self.log_img_path = None
 
     def add_stain_gan(self, stain_gan):
         self.stain_gan = stain_gan
@@ -59,12 +58,11 @@ class StainNet(pl.LightningModule):
         y_hat = self(batch)
         loss = self.loss_fun(y_hat, y)
         self.log("val_loss", loss)
-        if batch_idx == 0 and self.log_img_path is not None:
-            img_orig = Image.open(self.log_img_path).convert('RGB')
-            img_fake = self(torchvision.transforms.ToTensor()(img_orig))           
-
-            self.log("generated_image", img_fake)
-        
+        if batch_idx == 0:
+            grid = torchvision.utils.make_grid(self.y_hat[:4])
+            self.logger.experiment.add_image('generated_images', grid, 0)
+            grid = torchvision.utils.make_grid(self.batch[:4])
+            self.logger.experiment.add_image('original_images', grid, 0)
         return loss
 
     def predict_step(self, batch, batch_idx):
