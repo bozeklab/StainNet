@@ -4,6 +4,7 @@ from models import StainNet
 from utilities.seed import set_seeds
 from StainGAN.models.models import create_model
 from clearml import Task
+from data.dataloader import get_dataloaders
 
 
 def set_task_credentials(args):

@@ -1,7 +1,6 @@
 import torch.nn as nn
 import pytorch_lightning as pl
 import torch
-from data.dataloader import get_dataloaders
 
 KERNEL_SIZE = 1
 
