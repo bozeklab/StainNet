@@ -24,18 +24,18 @@ def get_dataframe(args):
     weights_dict = {0:1, 1:1, 2:2, 3:40, 4:40}
     weights = compute_sample_weight(weights_dict, df[SCORE_COL])
 
-    train, test, train_weights, test_weights = train_test_split(df, weights, test_size=0.2)
+    train, test, train_weights, val_weights = train_test_split(df, weights, test_size=0.2)
 
     train["mode"] = "train"
     test["mode"] = "test"
 
-    return pd.concat([train,test]), train_weights, test_weights
+    return pd.concat([train,test]), train_weights, val_weights
 
 def get_dataloaders(args):
     train_tranforms = get_transforms(args.fineSize)
     val_tranforms = get_transforms(args.fineSize)
 
-    df, train_weights, test_weights = get_dataframe(args)
+    df, train_weights, val_weights = get_dataframe(args)
     
 
     dataset_train = HER2Dataset(df, train_tranforms, args.dataroot, "train")
