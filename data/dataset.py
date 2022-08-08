@@ -29,6 +29,6 @@ class HER2Dataset(Dataset):
 
         return self.transforms(img_orig)
 
-    def get_weights(self):
+    def get_weights(self, class_weight="balanced"):
         """Returns the HER2 score calculated as weigths for WeightedRandomSampler"""
-        return compute_sample_weight("balanced", self.df[SCORE_COL])
+        return compute_sample_weight(class_weight, self.df[SCORE_COL])
