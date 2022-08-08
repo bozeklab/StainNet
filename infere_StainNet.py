@@ -3,6 +3,7 @@ from models import StainNet
 import torch
 from PIL import Image
 import torchvision
+import os
 
 def get_img(path):
     transforms = torchvision.transforms.ToTensor()  
@@ -19,7 +20,7 @@ def loader(args):
     if args.one_sample is not None:
         img = get_img(args.one_sample)
         if img is None:
-            raise RuntimeError("File does not exist")
+            raise RuntimeError(f"File {args.one_sample} does not exist")
         yield img, args.one_sample.split("/")[-1]
         return
     df = pd.read_csv(args.csv_path) 
