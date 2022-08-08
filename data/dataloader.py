@@ -34,7 +34,7 @@ def get_dataloaders(args):
 
     dataset_train = HER2Dataset(df, train_tranforms, args.dataroot, "train")
     dataset_val   = HER2Dataset(df, val_tranforms, args.dataroot, "test")
-    weigths = {"0":1, "1":2, "2":3, "3":30, "4": 50}
+    weigths = {"0":1, "1":2, "2":3, "4": 50}
     train_weights = dataset_train.get_weights(weigths)
     val_weights   = dataset_val.get_weights(weigths)
     sampler_train = WeightedRandomSampler(train_weights, args.epoch_len, replacement=True)

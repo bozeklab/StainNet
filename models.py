@@ -1,6 +1,7 @@
 import torch.nn as nn
 import pytorch_lightning as pl
 import torch
+from data.dataloader import get_dataloaders
 
 KERNEL_SIZE = 1
 
@@ -33,6 +34,7 @@ class StainNet(pl.LightningModule):
         if self.stain_gan is None:
             raise RuntimeError("StainGan should be initialized first!")
         return self.stain_gan.forward_simple(batch)
+        
 
     def forward(self, x):
         return self.pipeline(x)
@@ -58,7 +60,17 @@ class StainNet(pl.LightningModule):
 
     def predict_step(self, batch, batch_idx):
         return self(batch)
+
+    def setup_dataloader(self, opt):
+        self._train_dataloader, self._val_dataloader = get_dataloaders(opt)
     
+    def train_dataloader(self):
+        return self._train_dataloader
+
+    def val_dataloader(self):
+        return self._val_dataloader
+
+
 
 # class ResnetGenerator(nn.Module):
 #     """Resnet-based generator that consists of Resnet blocks between a few downsampling/upsampling operations.
