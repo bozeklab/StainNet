@@ -17,6 +17,7 @@ class TrainOptions(BaseOptions):
         self.parser.add_argument('--epoch', type=int, default=50, help='how many epoch to train')
         self.parser.add_argument('--epoch_len', type=int, default=6000, help='how many samples per epoch')
         self.parser.add_argument('--val_len', type=int, default=500, help='how many samples per epoch')
+        self.parser.add_argument('--continue_path', type=str, default=None, help="if you want to continue training provide path")
 
         self.parser.add_argument('--model', type=str, default='cycle_gan',
                                  help='chooses which model to use. cycle_gan, pix2pix, test')
