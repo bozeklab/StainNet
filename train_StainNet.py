@@ -27,9 +27,11 @@ def set_task_credentials(args):
 
 def main(args):
     stain_gan = create_model(args)
-    model = StainNet(args)
     if args.continue_path is not None:
-        model.load_from_checkpoint(args.continue_path)
+        model = StainNet.load_from_checkpoint(args.continue_path)
+    else:
+        model = StainNet(args)
+
 
     model.add_stain_gan(stain_gan)
     model.has_teardown_None = False

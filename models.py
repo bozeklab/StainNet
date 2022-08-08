@@ -2,6 +2,8 @@ import torch.nn as nn
 import pytorch_lightning as pl
 import torch
 from data.dataloader import get_dataloaders
+from PIL import Image
+import torchvision
 
 KERNEL_SIZE = 1
 
@@ -56,6 +58,13 @@ class StainNet(pl.LightningModule):
         y_hat = self(batch)
         loss = self.loss_fun(y_hat, y)
         self.log("val_loss", loss)
+        if batch_idx == 0:
+            img_path = self._val_dataloader.dataset.get_path(get_path)
+            img_orig = Image.open(path).convert('RGB')
+            img_fake = self(torchvision.transforms.ToTensor()(img_orig))           
+
+            self.log("generated_image", img_fake)
+        
         return loss
 
     def predict_step(self, batch, batch_idx):

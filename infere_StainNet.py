@@ -32,7 +32,8 @@ def loader(args):
         
 
 def main(args):
-    model = StainNet(args).load_from_checkpoint(args.checkpoints_dir)
+    model = StainNet.load_from_checkpoint(args.checkpoints_dir)
+    model.eval()
     for batch_idx, (batch, filename) in enumerate(loader(args)):
         pred = model.predict_step(batch, batch_idx)
         path = os.path.join(args.results, filename)
