@@ -59,12 +59,13 @@ class StainNet(pl.LightningModule):
         loss = self.loss_fun(y_hat, y)
         self.log("val_loss", loss)
         if batch_idx == 0:
+            epoch = self.current_epoch
             grid = torchvision.utils.make_grid(batch[:4])
-            self.logger.experiment.add_image('original_images', grid, 0)
+            self.logger.experiment.add_image('original_images', grid, epoch)
             grid = torchvision.utils.make_grid(y[:4])
-            self.logger.experiment.add_image('target_images', grid, 0)
+            self.logger.experiment.add_image('target_images', grid, epoch)
             grid = torchvision.utils.make_grid(y_hat[:4])
-            self.logger.experiment.add_image('generated_images', grid, 0)
+            self.logger.experiment.add_image('generated_images', grid, epoch)
         return loss
 
     def predict_step(self, batch, batch_idx):
