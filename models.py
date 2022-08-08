@@ -34,7 +34,6 @@ class StainNet(pl.LightningModule):
         if self.stain_gan is None:
             raise RuntimeError("StainGan should be initialized first!")
         return self.stain_gan.forward_simple(batch)
-        
 
     def forward(self, x):
         return self.pipeline(x)

@@ -18,6 +18,8 @@ def get_img(path):
 def loader(args):  
     if args.one_sample is not None:
         img = get_img(args.one_sample)
+        if img is None:
+            raise RuntimeError("File does not exist")
         yield img, args.one_sample.split("/")[-1]
         return
     df = pd.read_csv(args.csv_path) 
@@ -38,6 +40,5 @@ def main(args):
 if __name__ == "__main__":
     parser = InfereOptions().parser
     args = parser.parse_args()
-    args.is_predict = True
 
     main(args)
