@@ -37,7 +37,7 @@ def main(args):
     args.max_epochs = args.epoch
     trainer = Trainer.from_argparse_args(args)
 
-    model = setup_dataloader(args)
+    model.setup_dataloader(args)
     trainer.fit(model)
 
 
