@@ -35,7 +35,9 @@ def main(args):
         task = Task.init(project_name=args.clearml_project, task_name=args.clearml_task)
     args.max_epochs = args.epoch
     trainer = Trainer.from_argparse_args(args)
-    trainer.fit(model)
+
+    train_dataloader, val_dataloader = get_dataloaders(opt)
+    trainer.fit(model, train_dataloaders=train_dataloader, val_dataloader=val_dataloader)
 
 
 if __name__ == "__main__":

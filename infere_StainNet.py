@@ -17,7 +17,8 @@ def get_img(path):
 
 def loader(args):  
     if args.one_sample is not None:
-        yield get_img(args.one_sample), args.one_sample.split("/")[-1]
+        img = get_img(args.one_sample)
+        yield img, args.one_sample.split("/")[-1]
         return
     df = pd.read_csv(args.csv_path) 
     for row in df:
@@ -28,7 +29,7 @@ def loader(args):
         
 
 def main(args):
-    model = StainNet(args).load_from_checkpoint(args.checkpoint_path)
+    model = StainNet(args).load_from_checkpoint(args.checkpoints_dir)
     for batch_idx, (batch, filename) in enumerate(loader(args)):
         pred = model.predict_step(batch, batch_idx)
         path = os.path.join(args.results, filename)

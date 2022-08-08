@@ -8,11 +8,9 @@ KERNEL_SIZE = 1
 class StainNet(pl.LightningModule):
     def __init__(self, opt):
         super(StainNet, self).__init__()
+        
         self.opt = opt
         self.save_hyperparameters()
-
-        if not opt.is_predict:
-            self._train_dataloader, self._val_dataloader = get_dataloaders(opt)
 
         model_list = []
 
@@ -63,13 +61,6 @@ class StainNet(pl.LightningModule):
     def predict_step(self, batch, batch_idx):
         return self(batch)
     
-    def train_dataloader(self):
-        return self._train_dataloader
-
-    def val_dataloader(self):
-        return self._val_dataloader
-
-
 
 # class ResnetGenerator(nn.Module):
 #     """Resnet-based generator that consists of Resnet blocks between a few downsampling/upsampling operations.

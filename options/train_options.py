@@ -14,7 +14,7 @@ class TrainOptions(BaseOptions):
         self.parser.add_argument('--display_freq', type=int, default=50, help='frequency of showing training results on screen')
         self.parser.add_argument('--test_freq', type=int, default=5, help='frequency of cal')
         self.parser.add_argument('--lr', type=float, default=0.0001, help='initial learning rate for SGD')
-        self.parser.add_argument('--epoch', type=int, default=300, help='how many epoch to train')
+        self.parser.add_argument('--epoch', type=int, default=50, help='how many epoch to train')
         self.parser.add_argument('--epoch_len', type=int, default=6000, help='how many samples per epoch')
         self.parser.add_argument('--val_len', type=int, default=500, help='how many samples per epoch')
 
