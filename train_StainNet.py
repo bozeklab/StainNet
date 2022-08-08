@@ -30,6 +30,7 @@ def main(args):
     model = StainNet(args)
     model.add_stain_gan(stain_gan)
     model.has_teardown_None = False
+    model.setup_dataloader(args)
     set_seeds(args.seed)
     
     if args.logger: 
@@ -37,7 +38,6 @@ def main(args):
     args.max_epochs = args.epoch
     trainer = Trainer.from_argparse_args(args)
 
-    model.setup_dataloader(args)
     trainer.fit(model)
 
 
