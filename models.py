@@ -26,8 +26,9 @@ class StainNet(pl.LightningModule):
 
         model_list = model_list[:-1] # remove last ReLU activation
         self.pipeline = nn.Sequential(*model_list)
-        self.loss_inner = nn.L1Loss(reduction='none')
-        self.loss_fun = lambda y, y_hat: torch.mean(torch.log(1 + self.loss_inner(y, y_hat)))
+        self.loss_fun = nn.L1Loss()
+        # self.loss_inner = nn.L1Loss(reduction='none')
+        # self.loss_fun = lambda y, y_hat: torch.mean(torch.log(1 + self.loss_inner(y_hat, y)))
         self.stain_gan = None
 
     def add_stain_gan(self, stain_gan):
@@ -43,7 +44,7 @@ class StainNet(pl.LightningModule):
         return self.pipeline(x)
 
     def configure_optimizers(self):
-        optimizer = torch.optim.SGD(self.parameters(), lr=self.opt.lr)
+        optimizer = torch.optim.Adam(self.parameters(), lr=self.opt.lr)
         lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, self.opt.epoch)
         return [optimizer], [lr_scheduler]
 
