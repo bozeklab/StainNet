@@ -26,8 +26,8 @@ class StainNet(pl.LightningModule):
 
         model_list = model_list[:-1] # remove last ReLU activation
         self.pipeline = nn.Sequential(*model_list)
-        self.loss_inner = nn.L1Loss()
-        self.loss_fun = lambda y, y_hat: torch.log(1 + self.loss_inner(y, y_hat))
+        self.loss_inner = nn.L1Loss(reduction='none')
+        self.loss_fun = lambda y, y_hat: torch.mean(torch.log(1 + self.loss_inner(y, y_hat)))
         self.stain_gan = None
 
     def add_stain_gan(self, stain_gan):
