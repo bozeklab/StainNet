@@ -4,6 +4,7 @@ import torch
 from PIL import Image
 import torchvision
 import os
+import pandas as pd
 
 def get_img(path):
     transforms = torchvision.transforms.ToTensor()  

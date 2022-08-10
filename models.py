@@ -44,7 +44,7 @@ class StainNet(pl.LightningModule):
         return self.pipeline(x)
 
     def configure_optimizers(self):
-        optimizer = torch.optim.Adam(self.parameters(), lr=self.opt.lr)
+        optimizer = torch.optim.SGD(self.parameters(), lr=self.opt.lr)
         lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, self.opt.epoch)
         return [optimizer], [lr_scheduler]
 
