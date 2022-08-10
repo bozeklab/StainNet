@@ -25,11 +25,11 @@ def loader(args):
         yield img, args.one_sample.split("/")[-1]
         return
     df = pd.read_csv(args.csv_path) 
-    for row in df:
-        img = get_img(os.path.join(args.dataroot, row["filename"]))
+    for filename in df["filename"]:
+        img = get_img(os.path.join(args.dataroot, filename))
         if img is None:
             continue
-        yield img, row["filename"]
+        yield img, filename
         
 
 def main(args):
